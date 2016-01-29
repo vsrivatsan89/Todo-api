@@ -24,6 +24,23 @@ app.get('/todos/:id', function (req,res){
 	var todoID = parseInt(req.params.id);
 	var matchedTodo = _.findWhere(todos, {id: todoID});
 	
+	
+	if(matchedTodo)
+	{
+		res.json(matchedTodo);
+	 
+	}else
+	{
+		res.status(404).send();
+	}
+
+});
+
+app.delete('/todos/:id', function (req, res){
+	var todoID = parseInt(req.params.id);
+	var matchedTodo = _.findWhere(todos, {id: todoID});
+		todos = _.without(todos,matchedTodo);
+	
 	if(matchedTodo)
 	{
 		res.json(matchedTodo);
