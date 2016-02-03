@@ -20,10 +20,22 @@ app.get('/todos',function (req, res)
 	var queryParams = req.query;
 	var filteredTodos = todos;
 
-	if(queryParams.hasOwnProperty('completed') && queryParams.completed === 'true'){
+	if(queryParams.hasOwnProperty('completed') && !queryParams.hasOwnProperty('q') && queryParams.completed === 'true'){
 		filteredTodos = _.where(filteredTodos,{completed: true});
-	}else if (queryParams.hasOwnProperty('completed') && queryParams.completed === 'false'){
+	}else if (queryParams.hasOwnProperty('completed') && !queryParams.hasOwnProperty('q') && queryParams.completed === 'false'){
 		filteredTodos = _.where(filteredTodos,{completed: false});
+	}else if (queryParams.hasOwnProperty('completed') && queryParams.hasOwnProperty('q') && queryParams.completed === 'true' && queryParams.q.length > 0) {
+		filteredTodos = _.filter( _.where(filteredTodos, {completed: true}), function(todo) {
+			return todo.description.toLowerCase().indexOf(queryParams.q.toLowerCase()) > -1;
+		});
+
+
+	}else if (queryParams.hasOwnProperty('completed') && queryParams.hasOwnProperty('q') && queryParams.completed === 'false' && queryParams.q.length > 0) {
+		filteredTodos = _.filter( _.where(filteredTodos, {completed: false}), function(todo) {
+			return todo.description.toLowerCase().indexOf(queryParams.q.toLowerCase()) > -1;
+		});
+
+
 	}
 
 	res.json(filteredTodos);
