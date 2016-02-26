@@ -39,30 +39,7 @@ app.get('/todos', function(req, res) {
 	}, function (e) {
 		res.status(500).send();
 	});
-	// var filteredTodos = todos;
-
-	// if (queryParams.hasOwnProperty('completed') && !queryParams.hasOwnProperty('q') && queryParams.completed === 'true') {
-	// 	filteredTodos = _.where(filteredTodos, {
-	// 		completed: true
-	// 	});
-	// } else if (queryParams.hasOwnProperty('completed') && !queryParams.hasOwnProperty('q') && queryParams.completed === 'false') {
-	// 	filteredTodos = _.where(filteredTodos, {
-	// 		completed: false
-	// 	});
-	// } else if (queryParams.hasOwnProperty('completed') && queryParams.hasOwnProperty('q') && queryParams.completed === 'true' && queryParams.q.length > 0) {
-	// 	filteredTodos = _.filter(_.where(filteredTodos, {
-	// 		completed: true
-	// 	}), function(todo) {
-	// 		return todo.description.toLowerCase().indexOf(queryParams.q.toLowerCase()) > -1;
-	// 	});
-
-
-	// } else if (queryParams.hasOwnProperty('completed') && queryParams.hasOwnProperty('q') && queryParams.completed === 'false' && queryParams.q.length > 0) {
-	// 	filteredTodos = _.filter(_.where(filteredTodos, {
-	// 		completed: false
-	// 	}), function(todo) {
-	// 		return todo.description.toLowerCase().indexOf(queryParams.q.toLowerCase()) > -1;
-	// 	});
+		
 
 
 	
@@ -83,33 +60,30 @@ app.get('/todos/:id', function(req, res) {
 			res.status(500).send();
 
 		});
-	// var matchedTodo = _.findWhere(todos, {
-	// 	id: todoID
-	// });
 
-
-	// if (matchedTodo) {
-	// 	res.json(matchedTodo);
-
-	// } else {
-	// 	res.status(404).send();
-	// }
 
 });
 
 app.delete('/todos/:id', function(req, res) {
 	var todoID = parseInt(req.params.id);
-	var matchedTodo = _.findWhere(todos, {
-		id: todoID
+
+	db.todo.findById(todoID).then(function (todo) {
+		if(!!todo) {
+			db.todo.destroy({
+				where: {
+					id: todoID
+				}
+			}).then(function () {
+				res.send("Deleted todo");
+			});	
+		} else {
+			res.status(404).send();
+		}
+
+	}, function(e) {
+		res.status(500).send();
 	});
-	todos = _.without(todos, matchedTodo);
-
-	if (matchedTodo) {
-		res.json(matchedTodo);
-
-	} else {
-		res.status(404).send();
-	}
+	
 
 });
 //GET /todos/:id
