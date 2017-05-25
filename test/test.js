@@ -1,12 +1,22 @@
-var expect = require('expect');
+var chai = require('chai');
+var chaiHttp = require('chai-http');
+var server = require('../server');
+var should = chai.should();
 
-describe('App', () => {
+chai.use(chaiHttp);
+describe('/', () => {
 
-	it('should properly run tests', ()=> {
+	it('responds to / ', function testSlash(done) {
+	chai.request(server).get('/').end(function(err , res){
 
-	expect(1).toBe(1);
+		res.should.have.status(200);
+		done();
+
+
+
+	})});
+
 
 
 });
 
-});

@@ -138,8 +138,10 @@ app.put('/todos/:id', function(req, res) {
 });
 
 db.sequelize.sync().then(function() {
-	app.listen(PORT, function() {
-		console.log('Express listening on port: ' + PORT);
+	var server = app.listen(PORT, function() {
 	});
 
+
 });
+
+module.exports = app;
