@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var _ = require('underscore');
 var db = require('./db.js');
 
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 3001;
 var todos = [];
 var nextID = 0;
 
@@ -16,7 +16,7 @@ app.get('/', function(req, res) {
 });
 
 //GET /todos
-
+//this searches the todos list with the requested todo with criteria provided in the GET params
 app.get('/todos', function(req, res) {
 	var query = req.query;
 
@@ -47,6 +47,7 @@ app.get('/todos', function(req, res) {
 });
 
 app.get('/todos/:id', function(req, res) {
+	console.log("It got into the get by id function");
 	var todoID = parseInt(req.params.id);
 
 	db.todo.findById(todoID).then(function(todo) {
@@ -64,8 +65,10 @@ app.get('/todos/:id', function(req, res) {
 
 
 });
-
+//delete todos by id 
 app.delete('/todos/:id', function(req, res) {
+
+	console.log('It is trying to delete ' + req.params.id);
 	var todoID = parseInt(req.params.id);
 
 	db.todo.findById(todoID).then(function (todo) {
@@ -89,6 +92,7 @@ app.delete('/todos/:id', function(req, res) {
 });
 //GET /todos/:id
 
+//This returns the list of todos
 //POST /todos/
 app.post('/todos', function(req, res) {
 	var body = req.body;
@@ -103,6 +107,7 @@ app.post('/todos', function(req, res) {
 
 });
 
+//This updates the todo provided at id with the new put JSON data
 app.put('/todos/:id', function(req, res) {
 	var todoId = parseInt(req.params.id, 10);
 	var body = _.pick(req.body, 'description', 'completed');
