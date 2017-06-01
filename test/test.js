@@ -43,6 +43,7 @@ describe('API:', function() {
 
 
     it.skip('get todos with parameters given', function getTodos(done) {
+        //get todos with parameters given and see if the returned result match the criteria
 
 
 
@@ -60,14 +61,18 @@ describe('API:', function() {
 
 
     it.skip('get todos given an id', function getTodosGivenID(done) {
+        //search for id:1 and see if an object with that id is returned back and the return code is 200
 
     });
 
     it.skip('delete todo given an id', function deleteTodoGivenID(done) {
+        //delete a given todo with id and see the change in todos array length
 
     });
 
     it.skip('update todo with id given parameters', function updateTodo(done) {
+
+        //update the todo with id given and see if the returned todo matches the update
 
     });
 
