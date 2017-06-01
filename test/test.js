@@ -42,26 +42,26 @@ describe('API:', () => {
 
 
 
-    it('get todos with parameters given', function getTodos(done) {
+    it.skip('get todos with parameters given', function getTodos(done) {
 
 
 
     });
 
-    it('get list of todos', function getListOfTodos(done) {
+    it.skip('get list of todos', function getListOfTodos(done) {
 
     });
 
 
-    it('get todos given an id', function getTodosGivenID(done) {
+    it.skip('get todos given an id', function getTodosGivenID(done) {
 
     });
 
-    it('delete todo given an id', function deleteTodoGivenID(done) {
+    it.skip('delete todo given an id', function deleteTodoGivenID(done) {
 
     });
 
-    it('update todo with id given parameters', function updateTodo(done) {
+    it.skip('update todo with id given parameters', function updateTodo(done) {
 
     });
 
