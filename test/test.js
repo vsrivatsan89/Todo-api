@@ -8,7 +8,7 @@ chai.use(chaiHttp);
 
 //we should start off as if there are no items in the todos database
 
-describe('API:', () => {
+describe('API:', function() {
 
     it('responds to / ', function testSlash(done) {
         chai.request(server).get('/').end(function(err, res) {
@@ -32,8 +32,8 @@ describe('API:', () => {
 
         chai.request(server).post('/todos').send(todo).end(function(err, res) {
             res.should.have.status(200);
-            res.body.description.should.equal(todo.description);
-            res.body.completed.should.equal(todo.completed);
+            res.body.should.have.property('description', todo.description);
+            res.body.should.have.property('completed', todo.completed);
             done();
 
         });
@@ -48,8 +48,14 @@ describe('API:', () => {
 
     });
 
-    it.skip('get list of todos', function getListOfTodos(done) {
+    it('get list of todos', function getListOfTodos(done) {
+        chai.request(server).get('/todos').end(function(err, res) {
 
+            res.should.have.status(200);
+            res.body.should.not.be.empty;
+            done();
+
+        });
     });
 
 
@@ -64,6 +70,7 @@ describe('API:', () => {
     it.skip('update todo with id given parameters', function updateTodo(done) {
 
     });
+
 
 
 
