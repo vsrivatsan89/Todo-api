@@ -47,7 +47,6 @@ app.get('/todos', function(req, res) {
 });
 
 app.get('/todos/:id', function(req, res) {
-	console.log("It got into the get by id function");
 	var todoID = parseInt(req.params.id);
 
 	db.todo.findById(todoID).then(function(todo) {
@@ -68,7 +67,6 @@ app.get('/todos/:id', function(req, res) {
 //delete todos by id 
 app.delete('/todos/:id', function(req, res) {
 
-	console.log('It is trying to delete ' + req.params.id);
 	var todoID = parseInt(req.params.id);
 
 	db.todo.findById(todoID).then(function (todo) {

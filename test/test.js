@@ -38,7 +38,6 @@ describe('API:', function() {
 
 
     it('get todos with parameters given', function getTodos(done) {
-        //get todos with parameters given and see if the returned result match the criteria
        chai.request(server).get('/todos').query({completed:true,q:"Walk the dog"}).end(function(err,res){
 
             res.should.have.status(200);
@@ -65,14 +64,22 @@ describe('API:', function() {
     });
 
 
-    it.skip('get todos given an id', function getTodosGivenID(done) {
+    it('get todos given an id', function getTodosGivenID(done) {
         //search for id:1 and see if an object with that id is returned back and the return code is 200
+
+        chai.request(server).get('/todos/1').end(function(err,res){
+            res.should.have.status(200);
+            res.body.should.have.property('id',1);
+            done();
+
+        });
 
     });
 
     it.skip('delete todo given an id', function deleteTodoGivenID(done) {
         //delete a given todo with id and see the change in todos array length
 
+      
     });
 
     it.skip('update todo with id given parameters', function updateTodo(done) {
