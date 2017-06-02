@@ -7,4 +7,7 @@ Simple JSON API for managing TODOs
  * POST /todos/ - add todo given in the JSON body to the database
  * PUT /todos/:id - update todo at given id with the data provided in the body
  
+#Testing
+ * Testing is done via mocha and chai
+ * Install mocha and execute 'npm test' to run the builtin 7 tests. They should test all the REST endpoints
 
