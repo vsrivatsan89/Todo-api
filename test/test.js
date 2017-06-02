@@ -38,53 +38,88 @@ describe('API:', function() {
 
 
     it('get todos with parameters given', function getTodos(done) {
-       chai.request(server).get('/todos').query({completed:true,q:"Walk the dog"}).end(function(err,res){
+        chai.request(server).get('/todos').query({ completed: true, q: "Walk the dog" }).end(function(err, res) {
 
             res.should.have.status(200);
             var output = res.body;
-            output[0].should.have.property('completed',true);
-            output[0].should.have.property('description',"Walk the dog");
+            output[0].should.have.property('completed', true);
+            output[0].should.have.property('description', "Walk the dog");
             done();
 
 
 
 
-       });
+        });
 
     });
 
     it('get list of todos', function getListOfTodos(done) {
-        chai.request(server).get('/todos').end(function(err, res) {
 
+
+        var todo = {
+            "description": "Walk the dog",
+            "completed": true
+        }
+
+        chai.request(server).post('/todos').send(todo).end(function(err, res) {
             res.should.have.status(200);
-            res.body.should.not.be.empty;
+            res.body.should.have.property('description', todo.description);
+            res.body.should.have.property('completed', todo.completed);
             done();
 
         });
+
+
+
     });
 
 
     it('get todos given an id', function getTodosGivenID(done) {
         //search for id:1 and see if an object with that id is returned back and the return code is 200
 
-        chai.request(server).get('/todos/1').end(function(err,res){
+        chai.request(server).get('/todos').end(function(err, res) {
+
             res.should.have.status(200);
-            res.body.should.have.property('id',1);
-            done();
+            var validID = res.body[0].id;
+            chai.request(server).get('/todos/' + validID.toString()).end(function(err, res) {
+                res.should.have.status(200);
+                res.body.should.have.property('id', validID);
+                done();
+
+            });
+
 
         });
 
+
+
     });
 
-    it.skip('delete todo given an id', function deleteTodoGivenID(done) {
+    it('delete todo given an id', function deleteTodoGivenID(done) {
         //delete a given todo with id and see the change in todos array length
 
-      
+        var todoListSizeBefore = -1;
+        //update the todo with id given and see if the returned todo matches the update
+        chai.request(server).get('/todos').end(function(err, res) {
+            var todoListSizeBefore = -1;
+
+            res.should.have.status(200);
+            todoListSizeBefore = res.body.length;
+            chai.request(server).delete('/todos/' + (todoListSizeBefore - 1).toString()).end(function(err, res) {
+                res.should.have.status(200);
+                chai.request(server).get('/todos').end(function(err, res) {
+                    res.should.have.status(200);
+                    var todoListSizeUpdated = res.body.length;
+                    todoListSizeBefore.should.equal(todoListSizeUpdated + 1);
+                    done();
+                });
+            })
+        });
     });
 
     it.skip('update todo with id given parameters', function updateTodo(done) {
 
-        //update the todo with id given and see if the returned todo matches the update
+
 
     });
 
