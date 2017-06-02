@@ -75,7 +75,6 @@ describe('API:', function() {
 
 
     it('get todos given an id', function getTodosGivenID(done) {
-        //search for id:1 and see if an object with that id is returned back and the return code is 200
 
         chai.request(server).get('/todos').end(function(err, res) {
 
@@ -117,7 +116,21 @@ describe('API:', function() {
         });
     });
 
-    it.skip('update todo with id given parameters', function updateTodo(done) {
+    it('update todo with id given parameters', function updateTodo(done) {
+        chai.request(server).get('/todos').end(function(err, res) {
+
+            res.should.have.status(200);
+            var validID = res.body[0].id;
+            chai.request(server).put('/todos/' + validID.toString()).send({ "description": "test from chai" }).end(function(err, res) {
+                res.should.have.status(200);
+                res.body.should.have.property('id', validID);
+                res.body.should.have.property('description', "test from chai");
+                done();
+
+            });
+
+
+        });
 
 
 
