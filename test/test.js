@@ -6,15 +6,10 @@ var db = require('../db.js');
 
 chai.use(chaiHttp);
 
-//we should start off as if there are no items in the todos database
-
 describe('API:', function() {
 
     it('responds to / ', function testSlash(done) {
         chai.request(server).get('/').end(function(err, res) {
-
-            //response status code should be 200
-            //response text should be "TODO API Root"
             res.should.have.status(200);
             res.text.should.equal('TODO API Root');
             done();
@@ -42,10 +37,20 @@ describe('API:', function() {
 
 
 
-    it.skip('get todos with parameters given', function getTodos(done) {
+    it('get todos with parameters given', function getTodos(done) {
         //get todos with parameters given and see if the returned result match the criteria
+       chai.request(server).get('/todos').query({completed:true,q:"Walk the dog"}).end(function(err,res){
+
+            res.should.have.status(200);
+            var output = res.body;
+            output[0].should.have.property('completed',true);
+            output[0].should.have.property('description',"Walk the dog");
+            done();
 
 
+
+
+       });
 
     });
 
